@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BingoDZ</title>
+    <style>
+        #cartones {
+            float: left;
+        }
+
+        #bola {
+            float: left;
+            margin: 50px;
+        }
+
+        .carton {
+            margin: 20px;
+        }
+        td{
+            height: 19px;
+            width: 19px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        <button onclick="roll()">Sacar bola</button>
+    </p>
+    
+    <div id="cartones">
+        <div class="carton"></div>
+        <div class="carton"></div>
+        <div class="carton"></div>
+        <div class="carton"></div>
+        <div class="carton"></div>
+    </div>
+    <div id="bola">
+    </div>
+
+    <script src="Bingo.js"></script>
+    <script src="Carton.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
