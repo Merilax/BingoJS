@@ -29,8 +29,30 @@ function roll() {
             cartonListHTML.item(i).style.boxShadow = "0 0 20px #0f0";
             console.log("Bingo! End of game.");
             gameEnd = true;
+            haltInterval = true;
         }
     };
+}
+
+// Roll every set time
+let haltInterval = true;
+let intervalId;
+function autoroll() {
+    haltInterval = !haltInterval;
+
+    const autorollBtn = document.getElementById("autorollBtn");
+    haltInterval ?
+        autorollBtn.innerText = "Iniciar modo automático" :
+        autorollBtn.innerText = "Detener modo automático";
+
+    if (haltInterval) {
+        clearInterval(intervalId);
+        return;
+    };
+
+    intervalId = setInterval(() => {
+        roll();
+    }, 1000);
 }
 
 // Draw tables

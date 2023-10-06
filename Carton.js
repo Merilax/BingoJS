@@ -4,39 +4,36 @@ class Carton {
     columns = 9;
     cellNum = [];
     cellMarked = [];
-    numUsed = [];
     info = "";
     complete = true;
 
     // CONSTRUCTORS
     constructor() {
-        // Init arrays
+        // Init arrays.
         for (let i = 0; i < this.columns; i++) {
             this.cellNum.push([]);
             this.cellMarked.push([]);
         }
-        // Genereate unique numbers
-        for (let i = 0; i < 15; i++) {
-            var pass = true;
-            // No duplicates check
-            while (pass) {
-                var localRandom = Math.floor(Math.random() * 89) + 1;
-                pass = false;
-                this.numUsed.forEach(x => {
-                    if (localRandom === x) {
-                        pass = true;
+        // Genereate unique numbers.
+        for (let i = 0; i < this.columns; i++) {
+            let numUsed = [];
+            for (let j = 0; j < this.rows; j++) {
+                // No duplicates check.
+                let repeat = true;
+                while (repeat) {
+                    let localRandom = Math.round(
+                        (Math.random() * 9 + 1) + i * 10
+                    );
+                    repeat = false;
+                    numUsed.forEach(x => {
+                        if (localRandom === x) repeat = true;
+                    });
+                    if (!repeat) {
+                        // Assign number to appropiate column.
+                        this.cellNum[i].push(localRandom);
+                        this.cellMarked[i].push(false);
+                        numUsed.push(localRandom);
                     }
-                });
-                // Do not proceed if column overflows
-                if (this.cellNum[Math.floor((localRandom - 1) / 10)].length == this.rows) {
-                    pass = true;
-                }
-                if (pass == false) {
-                    // Assign number to appropiate column
-                    this.cellNum[Math.floor((localRandom - 1) / 10)].push(localRandom);
-                    this.cellMarked[Math.floor((localRandom - 1) / 10)].push(false);
-
-                    this.numUsed.push(localRandom);
                 }
             }
         }
@@ -44,33 +41,30 @@ class Carton {
         this.cellNum.forEach(arr => {
             arr.sort();
         });
-        // Fill leftover column slots with 0s and trues respectively
-        for (let i = 0; i < this.columns; i++) {
-            // Do not push into array while looping
-            var arr = [];
-            for (let j = 0; j < this.rows - this.cellNum[i].length; j++) {
-                arr.push(0);
-                this.cellMarked.push(true);
-            }
-            this.cellNum[i] = this.cellNum[i].concat(arr);
-        }
-        // TODO: Broken. Offset column slots to ensure only 5 numbers exist per row.
+        // Fill slots with empty spaces so that only 5 numbers exist per row.
         for (let i = 0; i < this.rows; i++) {
-            let count = 0;
-            for (let j = 0; j < this.columns; j++) {
-                if (this.cellNum[j][i] !== 0) count++;
-                if (count > 5 && this.cellNum[j][2] == 0) {
-                    this.cellNum[j].pop();
-                    this.cellNum[j].unshift(0);
-                    this.cellMarked[j].pop();
-                    this.cellMarked[j].unshift(true);
+            let posUsed = [];
+            for (let j = 0; j < this.columns - 5; j++) {
+                let repeat = true;
+                while (repeat) {
+                    let localRandom = Math.round(Math.random() * (this.columns - 1));
+                    repeat = false;
+                    posUsed.forEach(x => {
+                        if (localRandom === x) repeat = true;
+                    });
+                    if (!repeat) {
+                        // Assign empty space (0) and true to cell.
+                        this.cellNum[localRandom][i] = 0;
+                        this.cellMarked[localRandom][i] = true;
+                        posUsed.push(localRandom);
+                    }
                 }
             }
         }
     }
 
     // SETTERS
-    // returns true on complete card, or false
+    // returns true on complete card, or false.
     setCell(num) {
         // Find number and set to marked.
         for (let i = 0; i < this.columns; i++) {
