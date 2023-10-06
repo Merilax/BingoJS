@@ -39,8 +39,9 @@ class Carton {
         }
         // Sort
         this.cellNum.forEach(arr => {
-            arr.sort();
+            arr.sort((a, b) => a - b);
         });
+        console.log(this.cellNum)
         // Fill slots with empty spaces so that only 5 numbers exist per row.
         for (let i = 0; i < this.rows; i++) {
             let posUsed = [];
