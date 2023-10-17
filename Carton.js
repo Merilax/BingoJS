@@ -15,6 +15,16 @@ class Carton {
             this.cellMarked.push([]);
         }
         // Genereate unique numbers.
+        this.generateMatrix();
+        // Sort
+        this.cellNum.forEach(arr => {
+            arr.sort((a, b) => a - b);
+        });
+        // Fill slots with empty spaces so that only 5 numbers exist per row.
+        this.generateEmptyCells();
+    }
+
+    generateMatrix() {
         for (let i = 0; i < this.columns; i++) {
             let numUsed = [];
             for (let j = 0; j < this.rows; j++) {
@@ -37,12 +47,9 @@ class Carton {
                 }
             }
         }
-        // Sort
-        this.cellNum.forEach(arr => {
-            arr.sort((a, b) => a - b);
-        });
-        console.log(this.cellNum)
-        // Fill slots with empty spaces so that only 5 numbers exist per row.
+    }
+
+    generateEmptyCells() {
         for (let i = 0; i < this.rows; i++) {
             let posUsed = [];
             for (let j = 0; j < this.columns - 5; j++) {
